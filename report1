@@ -1,0 +1,52 @@
+class Solution {
+public:
+	typedef long long LL;
+	LL quick_pow(LL a, LL b, LL p)
+	{
+		LL ans = 1; a %= p;
+		while (b)
+		{
+			if (b & 1) ans = ans * a % p;
+			a = a * a % p;
+			b >>= 1;
+		}
+		return ans;
+	}
+	LL check(LL n, LL p)
+	{
+		return quick_pow(n, (p - 1) / 2, p);
+	}
+	void test(int iter)
+	{
+		int averageCount = 0;
+		float iterations = float(iter);
+		srand((unsigned)time(0));
+		while (iter > 0) {
+			unordered_set<int> hashTable;
+			int p = rand() % INT_MAX;
+			while (p < 3 || p % 2 == 0 || !isPrime(p)) {
+				p = rand() % INT_MAX;
+			}
+
+			int count = 0;
+			while (true)
+			{
+				int a = rand() % (p/2 + 1);
+				count++;
+				if (hashTable.find(a) != hashTable.end()) {
+					continue;
+				}
+				else if (check(a, p) == p - 1) {
+					cout << "Find a quadratic non-residue of " << p <<
+						" with " << count << " iterations" << "! It's " << a << endl;
+					averageCount += count;
+					break;
+				}
+				hashTable.insert(a);
+			}
+			iter--;
+		}
+		cout << "average by " << averageCount / iterations << " iterations over "<< (int)iterations <<" time tests" << endl;
+		return;
+	}
+};
