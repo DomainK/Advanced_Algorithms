@@ -1,0 +1,46 @@
+class Solution {
+public:
+    void rangeTest(unsigned long pasTirMax) {
+        for (unsigned long n = 2; n <= pasTirMax; n++) {
+            if (ASKTest(n)) {            
+                cout << setw(4) << n << endl;
+            }
+        }   
+    }
+    void test(unsigned long n) {
+        bool pri = ASKTest(n);
+    }
+    
+  // AKS primality test
+  void pascalTriangle(unsigned long n, vector<uint64_t>& pasTri)
+  // Calculate the n'th line 0.. middle
+  {
+      unsigned long j, k;
+
+      pasTri[0] = 1;
+      j = 1;
+      while (j <= n)
+      {
+          j++;
+          k = j / 2;
+          pasTri[k] = pasTri[k - 1];
+          for (; k >= 1; k--)
+              pasTri[k] += pasTri[k - 1];
+      }
+  }
+
+  bool ASKTest(unsigned long n)
+  {
+    vector<uint64_t> pasTri(n + 1);
+
+      pascalTriangle(n, pasTri);
+      bool res = true;
+    unsigned long i = n / 2;
+      while (res && (i > 1))
+      {
+          res = res && (pasTri[i] % n == 0);
+          i--;
+      }
+      return res;
+  }
+};
